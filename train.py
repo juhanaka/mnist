@@ -14,7 +14,7 @@ M_TRAINING = 5000
 M_TESTING = 1000
 
 
-def train(alpha, n_iter):
+def train(alpha, n_iter, plot=False):
     size_img, rows, cols, images = utils.read_images(
         TRAINING_IMAGES_PATH
     )
@@ -30,15 +30,16 @@ def train(alpha, n_iter):
     costs = np.zeros([n_iter, N_LABELS])
     X = images / 255
     for i in range(N_LABELS):
-        print 'Training a classifier for label {0}'.format(i)
+        # print 'Training a classifier for label {0}'.format(i)
         y = np.array([[1 if label == i else 0 for label in labels]]).T
         thetas[:, i:i+1], costs[:, i:i+1] = func.gradient_descent(
             thetas[:, i:i+1],
             y, X, alpha,
             n_iter
         )
-        plt.plot(costs[:, i:i+1])
-        plt.show()
+        if plot:
+            plt.plot(costs[:, i:i+1])
+            plt.show()
     return thetas
 
 
